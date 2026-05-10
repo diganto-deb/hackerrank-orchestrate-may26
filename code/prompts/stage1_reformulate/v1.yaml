@@ -1,0 +1,16 @@
+version: "1"
+stage: stage1_reformulate
+template: |
+  Rewrite the following support ticket into a clean, neutral query.
+
+  Rules:
+  - Fix grammatical errors and typos.
+  - Remove emotional language (frustration, urgency markers).
+  - Resolve ambiguous pronouns and references.
+  - Standardize terminology (e.g. "pass test" -> "submit assessment").
+  - Make implicit requests explicit.
+  - Preserve ALL informational content -- never drop a request.
+  - Return ONLY the rewritten query, no preamble.
+
+  Subject: {subject}
+  Issue: {issue}

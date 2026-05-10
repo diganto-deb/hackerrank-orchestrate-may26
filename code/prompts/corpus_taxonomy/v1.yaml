@@ -1,0 +1,43 @@
+version: "1"
+stage: corpus_taxonomy
+template: |
+  You are building a support knowledge base taxonomy.
+
+  Domain: {domain}
+  Total documents: {total_docs}
+
+  Below are all document titles and their first paragraphs from this domain.
+  ---
+  {doc_summaries}
+  ---
+
+  {required_labels_section}
+
+  Produce a JSON object with:
+  1. "overview": 2-3 sentence description of what this domain's support covers.
+  2. "labels": list of product area labels. Each label must be:
+     - lowercase and hyphenated (e.g. "billing-subscription", "account-management")
+     - mutually exclusive and collectively exhaustive — every document fits exactly one
+     - described with a clear "description"
+     - illustrated with 3-5 "example_doc_ids" from the provided list
+     - accompanied by "approximate_doc_count" (estimated docs that belong here)
+
+  Output ONLY valid JSON. No prose before or after.
+
+  Format:
+  {{
+    "overview": "...",
+    "labels": [
+      {{
+        "product_area_label": "account-management",
+        "description": "...",
+        "example_doc_ids": ["hackerrank_0001", "hackerrank_0005"],
+        "approximate_doc_count": 45
+      }}
+    ]
+  }}
+required_labels_section: |
+  REQUIRED LABELS — these label names MUST appear exactly as written in your output.
+  Assign documents that belong to each required label accordingly.
+  You may add additional labels for documents that do not fit any required label.
+  Required labels: {required_labels}

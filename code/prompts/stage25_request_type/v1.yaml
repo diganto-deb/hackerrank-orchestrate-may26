@@ -1,0 +1,20 @@
+version: "1"
+stage: stage25_request_type
+template: |
+  Classify the primary intent of this support ticket.
+
+  Query: {query}
+  Sub-queries: {sub_queries}
+  Company: {company}
+
+  Categories:
+  - product_issue: An existing feature is not working for this specific user. For Visa: lost/stolen card reporting, dispute filing, card activation, ATM locator, and cardholder support questions are all product_issue.
+  - bug: A system-level malfunction affecting core functionality broadly.
+  - feature_request: The user wants a new capability that does not currently exist.
+  - invalid: Entirely outside the scope of HackerRank, Claude, or Visa support. Examples: cooking, sports trivia, investment advice, legal opinions. Note: questions about Visa cards (lost/stolen, disputes, activation) are NOT invalid.
+
+  Guidance: broken beats missing. A user who can't do something they used to do -> product_issue or bug rather than feature_request. When the company is HackerRank, Claude, or Visa and the question relates to their services, prefer product_issue over invalid.
+  Asking HOW TO USE an existing feature, asking for best-practice guidance on existing features, or asking whether an existing action can be taken (e.g. "can I delete X?", "how do I add extra time?", "what is the best practice for variants?") -> product_issue, not feature_request. Only use feature_request if the user is explicitly asking for a NEW capability that does not exist yet.
+
+  Output JSON: {{"request_type": "<one of the four values>"}}
+  Output ONLY valid JSON.

@@ -1,0 +1,25 @@
+version: "1"
+stage: corpus_enrich
+template: |
+  You are enriching a support document for search and retrieval.
+
+  Domain: {domain}
+  Available product area labels (choose exactly one):
+  {labels}
+
+  Document ID: {doc_id}
+  Document title: {title}
+  Document body:
+  ---
+  {body}
+  ---
+
+  Produce a JSON object with:
+  - "product_area_primary": one label from the list above (exact match, bare label only)
+  - "doc_type": one of "faq", "troubleshooting", "policy", "how-to", "reference"
+  - "summary": 1-2 sentence summary of what this doc covers. Must NOT start with "This document".
+  - "keywords": list of 3-8 search terms a user might type to find this doc
+  - "confidence": float 0.0-1.0 indicating how confidently the label fits
+  - "cross_refs": list of doc_ids from the same domain this doc relates to (can be empty)
+
+  Output ONLY valid JSON. No prose.

@@ -1,0 +1,23 @@
+version: "1"
+stage: corpus_reconcile
+template: |
+  You are reconciling three support domain taxonomies into a unified taxonomy.
+
+  Each domain has its own set of bare labels. Your job is to:
+  1. Identify bare labels that appear in multiple domains (potential conflicts).
+  2. Add domain prefix to EVERY label: "{{domain}}:{{bare_label}}" (e.g. "hackerrank:billing-subscription").
+  3. Return ALL labels from all three domains, now domain-prefixed.
+
+  Input taxonomies:
+  {taxonomies}
+
+  Output a JSON array of objects. Each object:
+  {{
+    "domain": "hackerrank",
+    "bare_label": "billing-subscription",
+    "prefixed_label": "hackerrank:billing-subscription",
+    "description": "...",
+    "doc_count": 23
+  }}
+
+  Output ONLY valid JSON array. No prose.

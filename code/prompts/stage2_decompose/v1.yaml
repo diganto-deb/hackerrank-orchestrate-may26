@@ -1,0 +1,27 @@
+version: "1"
+stage: stage2_decompose
+template: |
+  Decompose the following support query into independent sub-questions.
+
+  Company: {company}
+  Unified taxonomy domains: {taxonomy_summary}
+
+  Query: {query}
+
+  Output a JSON object:
+  {{
+    "shared_context": {{
+      "domain": "visa",
+      "situational_frame": "brief description of the overall situation",
+      "company": "Visa"
+    }},
+    "sub_queries": [
+      {{"id": "Q1", "query": "full self-contained question 1", "context_ref": "shared_context"}},
+      {{"id": "Q2", "query": "full self-contained question 2", "context_ref": "shared_context"}}
+    ]
+  }}
+
+  Rules:
+  - Each sub_query must carry enough context to be retrieved independently.
+  - If the query has only one intent, output exactly one sub_query.
+  - Output ONLY valid JSON.

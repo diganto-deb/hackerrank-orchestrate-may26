@@ -1,0 +1,44 @@
+version: "1"
+stage: stage5_quality
+qc_template: |
+  Quality-check this support response. Use STRICT failure criteria — only fail a criterion if there is a clear, definite problem.
+
+  Sub-queries answered: {sub_queries}
+  Retrieved doc IDs available: {doc_ids}
+
+  Response to check:
+    status: {status}
+    product_area: {product_area}
+    response: {response}
+    justification: {justification}
+    request_type: {request_type}
+
+  Criteria — mark false ONLY if clearly violated:
+  - grounding: false ONLY if the response states a specific fact, policy, timeline, or number that directly contradicts or is entirely absent from the retrieved docs AND could mislead the user. General supportive phrasing and reasonable inferences from doc content are acceptable. Only fail grounding for clear, material fabrications — not for tone or framing.
+  - completeness: false ONLY if the response entirely ignores ALL sub-queries and provides zero relevant information. Addressing at least one sub-query is sufficient.
+  - scope: false ONLY if the response gives medical, legal, or financial advice outside what a support team should provide.
+  - coherence: false ONLY if status and request_type are logically impossible together (e.g., status=escalated but request_type=invalid).
+  - contradiction: false ONLY if the response directly contradicts itself within the same message.
+
+  Default to true (pass) when in doubt. Do not penalize for missing information that the docs do not cover.
+
+  Output ONLY valid JSON:
+  {{"passed": true/false, "grounding": true/false, "completeness": true/false, "scope": true/false, "coherence": true/false, "contradiction": true/false, "failures": []}}
+
+regen_template: |
+  Revise the support response to fix these quality issues: {failures}
+
+  Sub-queries: {sub_queries}
+  Retrieved doc IDs: {doc_ids}
+
+  Current output:
+    status: {status}
+    product_area: {product_area}
+    response: {response}
+    justification: {justification}
+    request_type: {request_type}
+
+  Guidance: {guidance}
+
+  Output corrected JSON with fields: status, product_area, response, justification, request_type.
+  Output ONLY valid JSON.

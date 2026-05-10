@@ -1,0 +1,20 @@
+version: "1"
+stage: stage3_classify
+template: |
+  Classify whether the retrieved support documents answer this sub-query.
+
+  Sub-query: {query}
+  Context: {context}
+
+  Retrieved documents:
+  {docs}
+
+  Classifications:
+  - answerable: The retrieved docs contain enough information to answer this question.
+  - escalation: The docs exist but the issue requires human action, financial/legal judgment, or a capability that cannot be resolved from documentation alone.
+  - invalid: This sub-query is outside the scope of all retrieved documents.
+
+  Key principle: sensitivity does not equal escalation. If the docs contain the answer steps, classify as answerable even if the topic is sensitive.
+
+  Output JSON: {{"classification": "<answerable|escalation|invalid>", "reason": "..."}}
+  Output ONLY valid JSON.

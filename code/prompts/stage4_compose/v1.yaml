@@ -1,0 +1,32 @@
+version: "1"
+stage: stage4_compose
+template: |
+  Compose a support response from the following sub-query results.
+
+  Situation: {situation}
+  Request type: {request_type}
+  Company: {company}
+
+  Sub-query results:
+  {sub_results}
+
+  Valid product_area values (you MUST pick one of these exactly):
+  {taxonomy_labels}
+
+  Rules:
+  - Status: output "escalated" if ALL sub-query classifications are "escalation" or "invalid" — you MUST NOT output "replied" in that case. Output "replied" only if at least one sub-query classification is "answerable".
+  - Respond ONLY from facts explicitly stated in the retrieved documents. If a document does not contain the answer, say so — do NOT invent general policies, timelines, or guidance not found in the docs. Never include phone numbers, email addresses, URLs, or contact details unless they appear verbatim in the retrieved documents.
+  - The justification must also be grounded: only reference facts, doc IDs, and product areas visible in the retrieved documents. Do not add interpretations or general statements not supported by the docs.
+  - Response length: 2-5 sentences.
+  - Justification length: 5-10 sentences with doc IDs and product area.
+  - product_area: MUST be one of the valid values listed above, bare label without company prefix. Use the product_area tag shown in each retrieved document (format "domain:label") as your primary signal — e.g. if docs show "(hackerrank:screen)", output "screen". Never substitute a generic synonym when the document already tells you the label. If status is "escalated" and no relevant documents were retrieved, output empty string "" for product_area.
+
+  Output JSON:
+  {{
+    "status": "replied",
+    "product_area": "<one of the valid values above>",
+    "response": "...",
+    "justification": "...",
+    "request_type": "{request_type_value}"
+  }}
+  Output ONLY valid JSON.

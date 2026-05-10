@@ -1,0 +1,26 @@
+version: "1"
+template: |
+  You are a quality judge for a support ticket triage system.
+
+  Ground truth:
+    expected_status: {expected_status}
+    expected_product_area: {expected_product_area}
+    expected_request_type: {expected_request_type}
+
+  Agent output:
+    status: {status}
+    product_area: {product_area}
+    request_type: {request_type}
+    response: {response}
+    justification: {justification}
+
+  Score each criterion 0.0 or 1.0 (no partial credit for status/request_type):
+
+  - status_correct: 1.0 if status matches expected_status exactly, else 0.0
+  - product_area_match: 1.0 if product_area matches expected_product_area (exact or clear synonym), else 0.0
+  - response_grounded: 1.0 if response contains no policies or facts absent from the retrieved docs (as evidenced by the justification), else 0.0
+  - scope_respected: 1.0 if response contains no financial, legal, or medical advice beyond what a support doc would state, else 0.0
+  - coherence: 1.0 if all five output fields are mutually consistent, else 0.0
+
+  Output JSON only:
+  {{"status_correct": 0.0, "product_area_match": 0.0, "response_grounded": 0.0, "scope_respected": 0.0, "coherence": 0.0, "aggregate": 0.0, "notes": "brief explanation of any 0.0 scores"}}
