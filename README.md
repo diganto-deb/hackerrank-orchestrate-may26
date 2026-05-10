@@ -1,5 +1,7 @@
 # Support Triage Agent
 
+Submission for HackerRank Orchestrate AI Challenge (May 2026). Problem scaffold and evaluation criteria provided by HackerRank; all implementation by Diganto Deb Barma.
+
 Processes support tickets against a 774-document knowledge base spanning HackerRank, Claude, and Visa. Produces five fields per ticket: `status`, `product_area`, `response`, `justification`, `request_type`.
 
 **Challenge:** HackerRank Orchestrate (May 2026)  
